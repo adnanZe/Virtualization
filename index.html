@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtualization Presentation</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .slide {
+            display: none;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .button:disabled {
+            background-color: #cccccc;
+        }
+
+        #scrollContainer {
+            height: 400px;
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid #ccc;
+        }
+
+        #innerContainer {
+            position: relative;
+            width: 100%;
+        }
+
+        .item {
+            height: 50px;
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide active" id="slide1">
+        <h1>Introduction to Virtualization</h1>
+        <p>Virtualization in frontend development optimizes the rendering of large lists or tables by only rendering
+            visible items in the DOM.</p>
+    </div>
+
+    <div class="slide" id="slide2">
+        <h1>Key Concepts</h1>
+        <ul>
+            <li><strong>DOM (Document Object Model):</strong> Represents the page structure as a tree of objects.</li>
+            <li><strong>Virtual DOM:</strong> A virtual representation of the UI synced with the real DOM by libraries
+                like React.</li>
+        </ul>
+    </div>
+
+    <div class="slide" id="slide3">
+        <h1>Benefits of Virtualization</h1>
+        <ul>
+            <li>Performance Optimization</li>
+            <li>Memory Efficiency</li>
+            <li>Improved User Experience</li>
+        </ul>
+    </div>
+
+    <div class="slide" id="slide4">
+        <h1>Use Cases</h1>
+        <ul>
+            <li>Large Data Sets</li>
+            <li>Infinite Scrolling</li>
+            <li>Real-time Data Updates</li>
+        </ul>
+    </div>
+
+    <div class="slide" id="slide5">
+        <h1>Implementation Example</h1>
+        <p>Here's a basic example of how to implement virtualization without using any libraries:</p>
+        <div id="scrollContainer">
+            <div id="innerContainer"></div>
+        </div>
+        <script>
+            const scrollContainer = document.getElementById('scrollContainer');
+            const innerContainer = document.getElementById('innerContainer');
+            const totalItems = 1000; // Total number of items
+            const itemHeight = 50; // Height of each item
+            const buffer = 5; // Buffer items to render before and after the visible area
+
+            // Calculate the height of the inner container
+            innerContainer.style.height = `${totalItems * itemHeight}px`;
+
+            // Function to create an item element
+            function createItem(index) {
+                const item = document.createElement('div');
+                item.className = 'item';
+                item.style.top = `${index * itemHeight}px`;
+                item.style.position = 'absolute';
+                item.innerText = `Item ${index}`;
+                return item;
+            }
+
+            // Render visible items
+            function renderVisibleItems() {
+                const scrollTop = scrollContainer.scrollTop;
+                const containerHeight = scrollContainer.clientHeight;
+
+                // Calculate the start and end index of items to render
+                const startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - buffer);
+                const endIndex = Math.min(totalItems - 1, Math.ceil((scrollTop + containerHeight) / itemHeight) + buffer);
+
+                // Clear previously rendered items
+                innerContainer.innerHTML = '';
+
+                // Render items
+                for (let i = startIndex; i <= endIndex; i++) {
+                    innerContainer.appendChild(createItem(i));
+                }
+            }
+
+            // Initial render
+            renderVisibleItems();
+
+            // Attach scroll event listener
+            scrollContainer.addEventListener('scroll', renderVisibleItems);
+        </script>
+    </div>
+
+    <div class="slide" id="slide6">
+        <h1>Main Breakdown of Virtualization</h1>
+        <h2>Components of Virtualization</h2>
+        <ul>
+            <li><strong>Container:</strong> The scrollable element that holds the virtualized content.</li>
+            <li><strong>Buffer:</strong> Additional items rendered before and after the visible area to ensure smooth
+                scrolling.</li>
+            <li><strong>Viewport:</strong> The visible area of the container where items are rendered.</li>
+            <li><strong>Item Renderer:</strong> The function or component responsible for creating and updating item
+                elements.</li>
+        </ul>
+        <h2>Event Listeners to Maintain</h2>
+        <ul>
+            <li><strong>Scroll Listener:</strong> Tracks the scroll position to determine which items to render or
+                remove.</li>
+            <li><strong>Resize Listener:</strong> Adjusts the rendering logic when the container size changes (optional
+                based on layout).</li>
+        </ul>
+        <h2>Conclusion</h2>
+        <p>Virtualization is essential for performance optimization in applications dealing with large datasets. It
+            ensures a smooth user experience by rendering only the necessary items. Proper management of event
+            listeners, especially scroll events, is crucial for effective virtualization.</p>
+    </div>
+
+
+    <div class="navigation">
+        <button class="button" id="prevButton" onclick="prevSlide()">Previous</button>
+        <button class="button" id="nextButton" onclick="nextSlide()">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 6;
+
+        function showSlide(slideIndex) {
+            for (let i = 1; i <= totalSlides; i++) {
+                document.getElementById(`slide${i}`).classList.remove('active');
+            }
+            document.getElementById(`slide${slideIndex}`).classList.add('active');
+            document.getElementById('prevButton').disabled = slideIndex === 1;
+            document.getElementById('nextButton').disabled = slideIndex === totalSlides;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        showSlide(currentSlide);
+    </script>
+</body>
+
+</html>

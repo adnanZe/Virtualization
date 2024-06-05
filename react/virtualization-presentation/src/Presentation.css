@@ -1,0 +1,66 @@
+/* src/Presentation.css */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navigation {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* .button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.button:disabled {
+  background-color: #cccccc;
+} */
+
+button {
+  margin: 10px;
+}
+
+.navigation {
+  opacity: 0.2;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.navigation:hover {
+  opacity: 1;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide {
+  animation: slide-in 0.5s ease-out forwards;
+}
