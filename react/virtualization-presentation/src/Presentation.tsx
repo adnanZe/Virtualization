@@ -2,110 +2,41 @@ import React, { useState } from "react";
 import "./Presentation.css";
 import { WithoutVirtualizationDemo } from "./components/WithoutVirtualizationDemo";
 import { VirtualizationDemo } from "./components/VirtualizationDemo";
-
+const slides = [
+  {
+    title: "Virtualization",
+  },
+  {
+    title: "Benefits of Virtualization",
+    content: (
+      <ul>
+        <li>Performance Optimization</li>
+        <li>Memory Efficiency</li>
+        <li>Improved User Experience</li>
+      </ul>
+    ),
+  },
+  {
+    title: "Use Cases",
+    content: (
+      <ul>
+        <li>Large Data Sets</li>
+        <li>Infinite Scrolling</li>
+        <li>Real-time Data Updates</li>
+      </ul>
+    ),
+  },
+  {
+    title: "Demo Without Virtualization",
+    content: <WithoutVirtualizationDemo />,
+  },
+  {
+    title: "Demo With Virtualization",
+    content: <VirtualizationDemo />,
+  },
+];
 export const Presentation: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  const slides = [
-    {
-      title: "Virtualization",
-    },
-    {
-      title: "Benefits of Virtualization",
-      content: (
-        <ul>
-          <li>Performance Optimization</li>
-          <li>Memory Efficiency</li>
-          <li>Improved User Experience</li>
-        </ul>
-      ),
-    },
-    {
-      title: "Use Cases",
-      content: (
-        <ul>
-          <li>Large Data Sets</li>
-          <li>Infinite Scrolling</li>
-          <li>Real-time Data Updates</li>
-        </ul>
-      ),
-    },
-    {
-      title: "Demo Without Virtualization",
-      content: <WithoutVirtualizationDemo />,
-    },
-    {
-      title: "Demo Virtualization",
-      content: <VirtualizationDemo />,
-    },
-    {
-      title: "Virtualization main core",
-      content: (
-        <pre>
-          <code>
-            {`
-const scrollContainer = scrollContainerRef.current;
-const totalItems = 1000;
-const itemHeight = 50;
-const buffer = 5;
-
-const renderVisibleItems = () => {
-  if (!scrollContainer) return;
-  const scrollTop = scrollContainer.scrollTop;
-  const containerHeight = scrollContainer.clientHeight;
-
-  const itemsInViewStart = scrollTop / itemHeight;
-  const itemsInViewEnd = (scrollTop + containerHeight) / itemHeight;
-
-  const bufferedStart = Math.floor(itemsInViewStart) - buffer;
-  const bufferedEnd = Math.ceil(itemsInViewEnd) + buffer;
-
-  const startIndex = Math.max(0, bufferedStart);
-  const endIndex = Math.min(totalItems - 1, bufferedEnd);
-
-  setVisibleItems(startIndex, endIndex);
-};
-
-scrollContainer.addEventListener('scroll', renderVisibleItems);
-`}
-          </code>
-        </pre>
-      ),
-    },
-    {
-      title: "JSX Element",
-      content: (
-        <pre>
-          <code>
-            {`
-return (
-  <div
-    ref={scrollContainerRef}
-    style={{ height: "200px", overflowY: "auto", border: "1px solid #ccc" }}>
-    <div
-      style={{height: \`\${totalItems * itemHeight}px\`, position: "relative" }}>
-      {visibleItems.map((index) => (
-        <div
-          key={index}
-          style={{
-            height: \`\${itemHeight}px\`,
-            borderBottom: "1px solid #ccc",
-            position: "absolute",
-            top: \`\${index * itemHeight}px\`,
-            width: "100%",
-          }}>
-          Item {index}
-        </div>
-      ))}
-    </div>
-  </div>
-);
-        `}
-          </code>
-        </pre>
-      ),
-    },
-  ];
 
   const [contentVisible, setContentVisible] = useState(false);
   const nextSlide = () => {
