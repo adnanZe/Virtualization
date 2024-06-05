@@ -11,7 +11,6 @@ const slides = [
     content: (
       <ul>
         <li>Performance Optimization</li>
-        <li>Memory Efficiency</li>
         <li>Improved User Experience</li>
       </ul>
     ),
@@ -22,7 +21,6 @@ const slides = [
       <ul>
         <li>Large Data Sets</li>
         <li>Infinite Scrolling</li>
-        <li>Real-time Data Updates</li>
       </ul>
     ),
   },
