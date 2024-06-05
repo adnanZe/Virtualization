@@ -54,9 +54,6 @@ const renderVisibleItems = () => {
   const scrollTop = scrollContainer.scrollTop;
   const containerHeight = scrollContainer.clientHeight;
 
-  const scrollTop = scrollContainer.scrollTop;
-  const containerHeight = scrollContainer.clientHeight;
-
   const itemsInViewStart = scrollTop / itemHeight;
   const itemsInViewEnd = (scrollTop + containerHeight) / itemHeight;
 
