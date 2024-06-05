@@ -54,8 +54,17 @@ const renderVisibleItems = () => {
   const scrollTop = scrollContainer.scrollTop;
   const containerHeight = scrollContainer.clientHeight;
 
-  const startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - buffer);
-  const endIndex = Math.min(totalItems - 1, Math.ceil((scrollTop + containerHeight) / itemHeight) + buffer);
+  const scrollTop = scrollContainer.scrollTop;
+  const containerHeight = scrollContainer.clientHeight;
+
+  const itemsInViewStart = scrollTop / itemHeight;
+  const itemsInViewEnd = (scrollTop + containerHeight) / itemHeight;
+
+  const bufferedStart = Math.floor(itemsInViewStart) - buffer;
+  const bufferedEnd = Math.ceil(itemsInViewEnd) + buffer;
+
+  const startIndex = Math.max(0, bufferedStart);
+  const endIndex = Math.min(totalItems - 1, bufferedEnd);
 
   setVisibleItems(startIndex, endIndex);
 };
