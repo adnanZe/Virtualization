@@ -64,3 +64,38 @@ button {
 .animate-slide {
   animation: slide-in 0.5s ease-out forwards;
 }
+
+pre {
+  background-color: #2d2d2d;
+  color: #f8f8f2;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+pre code {
+  font-family: "Source Code Pro", monospace;
+  color: #f8f8f2;
+}
+pre code .comment {
+  color: #757575;
+}
+pre code .keyword {
+  color: #c5a5c5;
+}
+pre code .number {
+  color: #f08d49;
+}
+pre code .string {
+  color: #8dc891;
+}
+pre code .function {
+  color: #79b6f2;
+}
+pre code .class-name {
+  color: #e7c547;
+}
+pre code .operator {
+  color: #e7c547;
+}

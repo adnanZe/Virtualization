@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 
 const totalItems = 1000;
 const itemHeight = 50;
-const buffer = 1;
+const buffer = 2;
 
 export const VirtualizationDemo: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -12,6 +12,7 @@ export const VirtualizationDemo: React.FC = () => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
     const scrollTop = scrollContainer.scrollTop;
+
     const containerHeight = scrollContainer.clientHeight;
 
     const startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - buffer);

@@ -8,24 +8,7 @@ export const Presentation: React.FC = () => {
 
   const slides = [
     {
-      title: "Introduction to Virtualization",
-      content:
-        "Virtualization in frontend development optimizes the rendering of large lists or tables by only rendering visible items in the DOM.",
-    },
-    {
-      title: "Key Concepts",
-      content: (
-        <ul>
-          <li>
-            <strong>DOM (Document Object Model):</strong> Represents the page
-            structure as a tree of objects.
-          </li>
-          <li>
-            <strong>Virtual DOM:</strong> A virtual representation of the UI
-            synced with the real DOM by libraries like React.
-          </li>
-        </ul>
-      ),
+      title: "Virtualization",
     },
     {
       title: "Benefits of Virtualization",
@@ -48,56 +31,72 @@ export const Presentation: React.FC = () => {
       ),
     },
     {
-      title: "Without Virtualization",
+      title: "Demo Without Virtualization",
       content: <WithoutVirtualizationDemo />,
     },
     {
-      title: "Implementation Example",
+      title: "Demo Virtualization",
       content: <VirtualizationDemo />,
     },
     {
-      title: "Main Breakdown of Virtualization",
+      title: "Virtualization main core",
       content: (
-        <>
-          <h2>Components of Virtualization</h2>
-          <ul>
-            <li>
-              <strong>Container:</strong> The scrollable element that holds the
-              virtualized content.
-            </li>
-            <li>
-              <strong>Buffer:</strong> Additional items rendered before and
-              after the visible area to ensure smooth scrolling.
-            </li>
-            <li>
-              <strong>Viewport:</strong> The visible area of the container where
-              items are rendered.
-            </li>
-            <li>
-              <strong>Item Renderer:</strong> The function or component
-              responsible for creating and updating item elements.
-            </li>
-          </ul>
-          <h2>Event Listeners to Maintain</h2>
-          <ul>
-            <li>
-              <strong>Scroll Listener:</strong> Tracks the scroll position to
-              determine which items to render or remove.
-            </li>
-            <li>
-              <strong>Resize Listener:</strong> Adjusts the rendering logic when
-              the container size changes (optional based on layout).
-            </li>
-          </ul>
-          <h2>Conclusion</h2>
-          <p>
-            Virtualization is essential for performance optimization in
-            applications dealing with large datasets. It ensures a smooth user
-            experience by rendering only the necessary items. Proper management
-            of event listeners, especially scroll events, is crucial for
-            effective virtualization.
-          </p>
-        </>
+        <pre>
+          <code>
+            {`
+const scrollContainer = scrollContainerRef.current;
+const totalItems = 1000;
+const itemHeight = 50;
+const buffer = 5;
+
+const renderVisibleItems = () => {
+  if (!scrollContainer) return;
+  const scrollTop = scrollContainer.scrollTop;
+  const containerHeight = scrollContainer.clientHeight;
+
+  const startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - buffer);
+  const endIndex = Math.min(totalItems - 1, Math.ceil((scrollTop + containerHeight) / itemHeight) + buffer);
+
+  setVisibleItems(startIndex, endIndex);
+};
+
+scrollContainer.addEventListener('scroll', renderVisibleItems);
+`}
+          </code>
+        </pre>
+      ),
+    },
+    {
+      title: "JSX Element",
+      content: (
+        <pre>
+          <code>
+            {`
+return (
+  <div
+    ref={scrollContainerRef}
+    style={{ height: "200px", overflowY: "auto", border: "1px solid #ccc" }}>
+    <div
+      style={{height: \`\${totalItems * itemHeight}px\`, position: "relative" }}>
+      {visibleItems.map((index) => (
+        <div
+          key={index}
+          style={{
+            height: \`\${itemHeight}px\`,
+            borderBottom: "1px solid #ccc",
+            position: "absolute",
+            top: \`\${index * itemHeight}px\`,
+            width: "100%",
+          }}>
+          Item {index}
+        </div>
+      ))}
+    </div>
+  </div>
+);
+        `}
+          </code>
+        </pre>
       ),
     },
   ];
@@ -106,12 +105,14 @@ export const Presentation: React.FC = () => {
   const nextSlide = () => {
     if (currentSlide < slides.length - 1) {
       setCurrentSlide(currentSlide + 1);
+      setContentVisible(false);
     }
   };
 
   const prevSlide = () => {
     if (currentSlide > 0) {
       setCurrentSlide(currentSlide - 1);
+      setContentVisible(false);
     }
   };
 
@@ -120,7 +121,7 @@ export const Presentation: React.FC = () => {
       <div
         key={currentSlide}
         className="slide animate-slide"
-        onClick={() => setContentVisible(!contentVisible)}>
+        onClick={() => !contentVisible && setContentVisible(!contentVisible)}>
         <h1>{slides[currentSlide].title}</h1>
         {contentVisible && (
           <div className="animate-slide">{slides[currentSlide].content}</div>
