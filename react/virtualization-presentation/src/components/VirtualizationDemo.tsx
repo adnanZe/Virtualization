@@ -1,5 +1,15 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 
+function createVisibleItemsArray(
+  startIndex: number,
+  endIndex: number
+): number[] {
+  return Array.from(
+    { length: endIndex - startIndex + 1 },
+    (_, i) => startIndex + i
+  );
+}
+
 const totalItems = 1000;
 const itemHeight = 50;
 const buffer = 2;
@@ -23,12 +33,8 @@ export const VirtualizationDemo: React.FC = () => {
     const startIndex = Math.max(0, bufferedStart);
     const endIndex = Math.min(totalItems - 1, bufferedEnd);
 
-    setVisibleItems(
-      Array.from(
-        { length: endIndex - startIndex + 1 },
-        (_, i) => startIndex + i
-      )
-    );
+    const visibleItems = createVisibleItemsArray(startIndex, endIndex);
+    setVisibleItems(visibleItems);
   }, []);
 
   useEffect(() => {
